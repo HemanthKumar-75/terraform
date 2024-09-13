@@ -6,7 +6,7 @@ resource "aws_security_group" "ssh_terraform" {
         from_port        = 0
         to_port          = 0
         protocol         = "-1"
-        cidr_blocks      = var.cidr_blocks
+        cidr_blocks      = var.cidr_blocks #allow from everyone
         ipv6_cidr_blocks = ["::/0"]
     }
 
@@ -22,17 +22,11 @@ resource "aws_security_group" "ssh_terraform" {
 }
 
 resource "aws_instance" "terraform" {
+    #here we are using the count function using index to 
     count = length(var.instance_name)
-    ami = var.ami_id
+    ami = data.aws_ami.testing.id
+    # ami = output.ami_id
     instance_type = var.instance_type
     vpc_security_group_ids = [aws_security_group.ssh_terraform.id]
     tags = merge(var.tags, {Name = var.instance_name[count.index]})
 }
-
-#export TF_VAR_instance_type=t3.xlarge  #terraform.tfvars
-
-#1. commandline
-#2. terraform.tfvars
-#3. environment variables
-#4. default
-#5. prompt if we not given at any places

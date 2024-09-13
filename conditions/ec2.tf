@@ -26,9 +26,13 @@ resource "aws_security_group" "ssh_terraform" {
 resource "aws_instance" "terraform" {
 
     ami = "ami-09c813fb71547fc4f"
-    instance_type = "t2.micro"
+    #condition will we can be apply here 
+    instance_type = var.environment == "prod" ? "t3.small" : "t2.micro"
     vpc_security_group_ids = [aws_security_group.ssh_terraform.id]
     tags = {
         Name = "terraform"
     }
 }
+
+#expression ? "run this if true" : "else run this"
+#var.environment == "prod" ? "t3.small" : "t2.micro"

@@ -54,7 +54,3 @@ variable "protocols" {
 variable "cidr_blocks" {
     default = ["0.0.0.0/0"]
 }
-
-# variable "records" {
-#     default = var.instance_name[count.index] == "frontend" ? [aws_instance.terraform[count.index].public_ip] : [aws_instance.terraform[count.index].private_ip]
-# }

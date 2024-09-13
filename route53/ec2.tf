@@ -6,7 +6,7 @@ resource "aws_security_group" "ssh_terraform" {
         from_port        = 0
         to_port          = 0
         protocol         = "-1"
-        cidr_blocks      = var.cidr_blocks
+        cidr_blocks      = var.cidr_blocks #allow from everyone
         ipv6_cidr_blocks = ["::/0"]
     }
 
@@ -22,6 +22,7 @@ resource "aws_security_group" "ssh_terraform" {
 }
 
 resource "aws_instance" "terraform" {
+    #here we are using the count function using index to 
     count = length(var.instance_name)
     ami = var.ami_id
     instance_type = var.instance_type
