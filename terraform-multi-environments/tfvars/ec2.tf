@@ -1,5 +1,5 @@
 resource "aws_security_group" "expense" {
-    name = var.sec_group
+    name = "${var.sec_group}-${var.environment}"
     description = var.sg_desc
 
     egress {
@@ -27,7 +27,7 @@ resource "aws_security_group" "expense" {
            ipv6_cidr_blocks = ["::/0"]
         # }
     }
-   tags = var.tags
+   tags = merge( var.tags,{Nmae = "${var.sec_group}-${var.environment}"} )
 }
 
 resource "aws_instance" "expense" {
